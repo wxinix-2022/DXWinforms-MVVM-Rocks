@@ -33,21 +33,22 @@
             // 
             // trackListView1
             // 
-            this.trackListView1.Location = new System.Drawing.Point(25, 63);
+            this.trackListView1.Location = new System.Drawing.Point(38, 92);
+            this.trackListView1.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.trackListView1.Name = "trackListView1";
-            this.trackListView1.Size = new System.Drawing.Size(770, 483);
+            this.trackListView1.Size = new System.Drawing.Size(1155, 706);
             this.trackListView1.TabIndex = 0;
             // 
             // MainWindow
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 19F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(818, 627);
+            this.ClientSize = new System.Drawing.Size(1276, 911);
             this.Controls.Add(this.trackListView1);
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "MainWindow";
             this.Text = "Form1";
             this.ResumeLayout(false);
-
         }
 
         #endregion

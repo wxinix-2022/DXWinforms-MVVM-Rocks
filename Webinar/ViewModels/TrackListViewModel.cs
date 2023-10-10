@@ -1,16 +1,17 @@
-﻿using System;
+﻿using DevExpress.Mvvm;
 using DevExpress.Mvvm.DataAnnotations;
-using DevExpress.Mvvm;
 using DevExpress.Mvvm.POCO;
+using Webinar.Data;
 
 namespace Webinar.ViewModels
 {
     [POCOViewModel]
-    public class TrackListViewModel
+    public sealed class TrackListViewModel
     {
-        public virtual TrackList Tracks { get; set; }
-        public virtual TrackInfo SelectedTrack {get; set;}
-        protected TrackListViewModel()
+        public TrackList Tracks { get; set; }
+        public TrackInfo SelectedTrack { get; set; }
+
+        private TrackListViewModel()
         {
             Tracks = new TrackList();
         }
@@ -21,14 +22,13 @@ namespace Webinar.ViewModels
         }
 
         [ServiceProperty(SearchMode = ServiceSearchMode.PreferParents)]
-        protected virtual IDocumentManagerService DocumentManagerService { get { return null; } }
+        private static IDocumentManagerService DocumentManagerService => null;
 
         public void EditTrack(object trackObject)
         {
             var track = trackObject as TrackInfo;
             var document = DocumentManagerService.CreateDocument("TrackView", TrackViewModel.Create(track));
             document.Show();
-            
         }
     }
 }

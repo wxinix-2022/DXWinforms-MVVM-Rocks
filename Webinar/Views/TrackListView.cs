@@ -11,6 +11,7 @@ using DevExpress.XtraEditors;
 using Webinar.ViewModels;
 using DevExpress.XtraGrid.Views.Grid;
 using DevExpress.XtraGrid.Views.Base;
+using Webinar.Data;
 
 namespace Webinar.Views
 {

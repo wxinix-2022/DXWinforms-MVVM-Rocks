@@ -3,6 +3,7 @@ using DevExpress.Mvvm.DataAnnotations;
 using DevExpress.Mvvm;
 using DevExpress.Mvvm.POCO;
 using System.ComponentModel;
+using Webinar.Data;
 
 namespace Webinar.ViewModels
 {
@@ -17,40 +18,46 @@ namespace Webinar.ViewModels
         //    track = new TrackList()[32];
         //    Load(track);
         //}
-        protected TrackViewModel() : this(new TrackList()[32]) { }
+        protected TrackViewModel() : this(new TrackList()[32])
+        {
+        }
+
         protected TrackViewModel(TrackInfo track)
         {
             if (track == null)
-                throw new ArgumentNullException("track", "track is null.");
+                throw new ArgumentNullException(nameof(track));
             Load(track);
         }
+
         public static TrackViewModel Create()
         {
             return ViewModelSource.Create(() => new TrackViewModel());
         }
+
         public static TrackViewModel Create(TrackInfo track)
         {
             return ViewModelSource.Create(() => new TrackViewModel(track));
         }
+
         public bool CanResetName()
         {
-            return _track != null && !String.IsNullOrEmpty(Name);
+            return _track != null && !string.IsNullOrEmpty(Name);
         }
+
         public void ResetName()
         {
-            if (_track != null)
-            {
-                if (MessageBoxService.ShowMessage("Are you sure you want to reset the Name value?",
-                                    "Question",
-                                    MessageButton.YesNo,
-                                    MessageIcon.Question,
-                                    MessageResult.No) == MessageResult.Yes)
-                    Name = "";
-            }
+            if (_track == null) return;
+
+            if (MessageBoxService.ShowMessage("Are you sure you want to reset the Name value?",
+                    "Question",
+                    MessageButton.YesNo,
+                    MessageIcon.Question,
+                    MessageResult.No) == MessageResult.Yes)
+                Name = "";
         }
 
         [ServiceProperty(SearchMode = ServiceSearchMode.PreferParents)]
-        protected virtual IMessageBoxService MessageBoxService { get { return null; } }
+        protected virtual IMessageBoxService MessageBoxService => null;
 
         private void Load(TrackInfo track)
         {
@@ -62,15 +69,16 @@ namespace Webinar.ViewModels
 
         void IEditableObject.BeginEdit()
         {
-
         }
 
         void IEditableObject.EndEdit()
         {
             if (!string.Equals(Name, _track.Name))
                 _track.Name = Name;
+
             if (!string.Equals(Composer, _track.Composer))
                 _track.Composer = Composer;
+
             if (TrackId != _track.TrackId)
                 _track.TrackId = TrackId;
         }
@@ -80,16 +88,37 @@ namespace Webinar.ViewModels
             Load(this._track);
         }
 
-        public virtual int TrackId { get; set; }
-        public virtual string Name { get; set; }
         protected void OnNameChanged()
         {
             this.RaiseCanExecuteChanged(x => x.ResetName());
         }
+        
+        public void Save()
+        {
+            ((IEditableObject)this).EndEdit();
+        }
 
-        public virtual string Composer { get; set; }
+        public void Revert()
+        {
+            ((IEditableObject)this).CancelEdit();
+        }
 
-        public void Save() { ((IEditableObject)this).EndEdit(); }
-        public void Revert() { ((IEditableObject)this).CancelEdit(); }
+        public virtual string Composer
+        {
+            get; 
+            set;
+        }
+
+        public virtual string Name
+        {
+            get; 
+            set;
+        }
+
+        public virtual int TrackId
+        {
+            get; 
+            set;
+        }
     }
 }
